@@ -1,0 +1,491 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"type": "string",
+			"metadata": "Workspace name",
+			"defaultValue": "njjan24syn"
+		},
+		"blobdatalake_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'blobdatalake'"
+		},
+		"demodb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'demodb'"
+		},
+		"njjan24syn-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'njjan24syn-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:njjan24syn.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://njdemokeys.vault.azure.net/"
+		},
+		"njjan24syn-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://jan24njdlg2.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"workspaceId": "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('workspaceName'), '/copydatademo')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_8g6",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "babs/data/201508_station_data.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "dbo.jan14station"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": false,
+							"validateDataConsistency": false,
+							"dataIntegrationUnits": 4,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "station_id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "station_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "lat",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "lat",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "long",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "long",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "dockcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dockcount",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "landmark",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "landmark",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "installation",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "installation",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_8g6",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_8g6",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_8g6')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_8g6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_8g6')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "demodb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "jan14station"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/demodb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_8g6')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blobdatalake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "201508_station_data.csv",
+						"folderPath": "data",
+						"container": "babs"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "station_id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "lat",
+						"type": "String"
+					},
+					{
+						"name": "long",
+						"type": "String"
+					},
+					{
+						"name": "dockcount",
+						"type": "String"
+					},
+					{
+						"name": "landmark",
+						"type": "String"
+					},
+					{
+						"name": "installation",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/blobdatalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/stationdata')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blobdatalake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "201508_station_data.csv",
+						"folderPath": "data",
+						"container": "babs"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "station_id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "lat",
+						"type": "String"
+					},
+					{
+						"name": "long",
+						"type": "String"
+					},
+					{
+						"name": "dockcount",
+						"type": "String"
+					},
+					{
+						"name": "landmark",
+						"type": "String"
+					},
+					{
+						"name": "installation",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/blobdatalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/blobdatalake')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('blobdatalake_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/demodb')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('demodb_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/njjan24syn-WorkspaceDefaultSqlServer')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"DBName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('njjan24syn-WorkspaceDefaultSqlServer_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/njjan24syn-WorkspaceDefaultStorage')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('njjan24syn-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Trigger_8g6')]",
+			"type": "Microsoft.Synapse/workspaces/triggers",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipeline": {
+					"pipelineReference": {
+						"referenceName": "copydatademo",
+						"type": "PipelineReference"
+					},
+					"parameters": {}
+				},
+				"type": "TumblingWindowTrigger",
+				"typeProperties": {
+					"frequency": "Hour",
+					"interval": 1,
+					"startTime": "2024-01-23T10:41:00Z",
+					"endTime": "2024-01-24T10:41:00Z",
+					"delay": "00:00:00",
+					"maxConcurrency": 50,
+					"retryPolicy": {
+						"intervalInSeconds": 30
+					},
+					"dependsOn": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/copydatademo')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 0
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
+			"type": "Microsoft.Synapse/workspaces/credentials",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		}
+	]
+}
