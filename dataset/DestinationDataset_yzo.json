@@ -1,0 +1,21 @@
+{
+	"name": "DestinationDataset_yzo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "njjan24syn-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "demo",
+				"folderPath": "RAW",
+				"fileSystem": "mysynwscontainer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
