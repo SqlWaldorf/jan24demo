@@ -17,12 +17,12 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "29730a96-143e-45d1-8437-294eda054164"
+				"spark.autotune.trackingId": "4ad445ae-abbf-4724-8280-1bcefdefa7b6"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"enableDebugMode": false,
+			"enableDebugMode": true,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "Synapse PySpark"
@@ -203,6 +203,45 @@
 							"deleting": false
 						}
 					},
+					"tags": [
+						"parameters"
+					]
+				},
+				"source": [
+					"linked_service_name = 'Your linked service name' # replace with your linked service name "
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import "
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
 					"ms_comments": [
 						{
 							"threadId": "f24d82f8-b79f-4216-975c-588f6c9e8b63",
@@ -227,20 +266,7 @@
 								}
 							]
 						}
-					],
-					"ms_comment_ranges": {
-						"f24d82f8-b79f-4216-975c-588f6c9e8b63": {
-							"text": "linked_service_name",
-							"start": {
-								"line": 8,
-								"column": 1
-							},
-							"end": {
-								"line": 8,
-								"column": 20
-							}
-						}
-					}
+					]
 				},
 				"source": [
 					"from pyspark.sql import SparkSession \r\n",
@@ -250,7 +276,6 @@
 					"blob_account_name = 'Your blob name' # replace with your blob name \r\n",
 					"blob_container_name = 'Your container name' # replace with your container name \r\n",
 					"blob_relative_path = 'Your relative path' # replace with your relative folder path \r\n",
-					"linked_service_name = 'Your linked service name' # replace with your linked service name \r\n",
 					"\r\n",
 					"blob_sas_token = mssparkutils.credentials.getConnectionStringOrCreds(linked_service_name) \r\n",
 					"\r\n",
@@ -289,7 +314,7 @@
 				"source": [
 					"%run helper/functionslist"
 				],
-				"execution_count": 12
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
@@ -307,7 +332,7 @@
 				"source": [
 					"myhelperfunction(21)"
 				],
-				"execution_count": 11
+				"execution_count": 15
 			}
 		]
 	}
