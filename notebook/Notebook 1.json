@@ -1,0 +1,314 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sdfgh",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "29730a96-143e-45d1-8437-294eda054164"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/7d0bf428-21d4-43e3-bfeb-d4dc319f71c5/resourceGroups/jan24demo/providers/Microsoft.Synapse/workspaces/njjan24syn/bigDataPools/sdfgh",
+				"name": "sdfgh",
+				"type": "Spark",
+				"endpoint": "https://njjan24syn.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sdfgh",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.3",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# My demo notebook\r\n",
+					"\r\n",
+					"This is a **basic** demo. see more at <a href=\"https://www.u2u.be\">here</a>.\r\n",
+					"\r\n",
+					"\r\n",
+					"$\\sum_{i=1}^{10} i^2$\r\n",
+					"\r\n",
+					""
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%sql\r\n",
+					"\r\n",
+					"show DATABASES"
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## warming up\r\n",
+					""
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%sql\r\n",
+					"CREATE DATABASE u2udemo"
+				],
+				"execution_count": 4
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"myvar = 42"
+				],
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"print(myvar)"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## Fetching data"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"ms_comments": [
+						{
+							"threadId": "f24d82f8-b79f-4216-975c-588f6c9e8b63",
+							"text": "what is this linked service thing?",
+							"status": "active",
+							"user": {
+								"name": "Nico Jacobs",
+								"idType": "aad"
+							},
+							"createdDateUTC": 1706193702816,
+							"modifiedDateUTC": 1706193702816,
+							"replies": [
+								{
+									"replyId": "3ea9d660-e864-4b44-930a-6478cb400552",
+									"text": "checkout ...",
+									"user": {
+										"name": "Nico Jacobs",
+										"idType": "aad"
+									},
+									"createdDateUTC": 1706193725893,
+									"modifiedDateUTC": 1706193725893
+								}
+							]
+						}
+					],
+					"ms_comment_ranges": {
+						"f24d82f8-b79f-4216-975c-588f6c9e8b63": {
+							"text": "linked_service_name",
+							"start": {
+								"line": 8,
+								"column": 1
+							},
+							"end": {
+								"line": 8,
+								"column": 20
+							}
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import SparkSession \r\n",
+					"from pyspark.sql.types import * \r\n",
+					"\r\n",
+					"# Azure storage access info \r\n",
+					"blob_account_name = 'Your blob name' # replace with your blob name \r\n",
+					"blob_container_name = 'Your container name' # replace with your container name \r\n",
+					"blob_relative_path = 'Your relative path' # replace with your relative folder path \r\n",
+					"linked_service_name = 'Your linked service name' # replace with your linked service name \r\n",
+					"\r\n",
+					"blob_sas_token = mssparkutils.credentials.getConnectionStringOrCreds(linked_service_name) \r\n",
+					"\r\n",
+					"# Allow SPARK to access from Blob remotely \r\n",
+					"wasbs_path = 'wasbs://%s@%s.blob.core.windows.net/%s' % (blob_container_name, blob_account_name, blob_relative_path) \r\n",
+					"spark.conf.set('fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name), blob_sas_token) \r\n",
+					"print('Remote blob path: ' + wasbs_path) \r\n",
+					"\r\n",
+					"# Read a csv file \r\n",
+					"csv_path = wasbs_path + 'Your file name ' \r\n",
+					"df_csv = spark.read.csv(csv_path, header = 'true') \r\n",
+					"\r\n",
+					"# Read a parquet file \r\n",
+					"parquet_path = wasbs_path + ' Your file name ' \r\n",
+					"df_parquet = spark.read.parquet(parquet_path) \r\n",
+					"\r\n",
+					"# Read a json file \r\n",
+					"json_path = wasbs_path + 'Your file name ' \r\n",
+					"df_json = spark.read.json(json_path) "
+				],
+				"execution_count": 10
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run helper/functionslist"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"myhelperfunction(21)"
+				],
+				"execution_count": 11
+			}
+		]
+	}
+}
