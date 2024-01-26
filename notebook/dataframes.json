@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 2",
+	"name": "dataframes",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fa84544a-da85-461b-b4b6-17290b204f8e"
+				"spark.autotune.trackingId": "8476ea3b-9d6a-4380-a44e-0673ebd34c32"
 			}
 		},
 		"metadata": {
@@ -319,6 +319,29 @@
 					"collapsed": false
 				},
 				"source": [
+					"%%sql\r\n",
+					"show TABLE EXTENDED LIKE 'docksperlandmark'"
+				],
+				"execution_count": 39
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					},
+					"collapsed": false
+				},
+				"source": [
 					"%%sql   \r\n",
 					"select * from docksperlandmark"
 				],
@@ -335,12 +358,17 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					},
+					"collapsed": false
 				},
 				"source": [
-					""
+					"%%sql\r\n",
+					"drop table docksperlandmark"
 				],
-				"execution_count": null
+				"execution_count": 40
 			}
 		]
 	}
