@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8c7c976a-5c68-48f2-a663-ab7b2052edea"
+				"spark.autotune.trackingId": "3c45c02f-bf03-4e30-8ede-e5f79795a4df"
 			}
 		},
 		"metadata": {
@@ -95,26 +95,8 @@
 					"collapsed": false
 				},
 				"source": [
-					"use u2udemo"
-				],
-				"execution_count": 3
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"CREATE TABLE student (id INT, name STRING, age INT) USING CSV;"
+					"DROP TABLE IF EXISTS student;\r\n",
+					"DROP TABLE IF EXISTS deltastudent;"
 				],
 				"execution_count": 4
 			},
@@ -133,7 +115,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"insert INTO student values (1,'Andy', 17), (2, 'Bea', 18)"
+					"SHOW TABLES"
 				],
 				"execution_count": 5
 			},
@@ -152,45 +134,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"SELECT * FROM student"
-				],
-				"execution_count": 6
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"UPDATE student SET age= 21 where id = 1\r\n",
-					""
-				],
-				"execution_count": 7
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"CREATE TABLE deltastudent (id INT, name STRING, age INT) USING delta;"
+					"use u2udemo"
 				],
 				"execution_count": 8
 			},
@@ -209,9 +153,161 @@
 					"collapsed": false
 				},
 				"source": [
+					"drop table student"
+				],
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TABLE student (id INT, name STRING, age INT) USING CSV;"
+				],
+				"execution_count": 16
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"insert INTO student values (1,'Andy', 17), (2, 'Bea', 18)"
+				],
+				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"show table EXTENDED LIKE 'student'"
+				],
+				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"SELECT * FROM student"
+				],
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"UPDATE student SET age= 21 where id = 1\r\n",
+					""
+				],
+				"execution_count": 19
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"drop table deltastudent"
+				],
+				"execution_count": 20
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TABLE deltastudent (id INT, name STRING, age INT) USING delta;"
+				],
+				"execution_count": 21
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
 					"insert INTO deltastudent values (1,'Andy', 17), (2, 'Bea', 18)"
 				],
-				"execution_count": 9
+				"execution_count": 23
 			},
 			{
 				"cell_type": "code",
@@ -230,7 +326,7 @@
 				"source": [
 					"SELECT * FROM deltastudent"
 				],
-				"execution_count": 10
+				"execution_count": 24
 			},
 			{
 				"cell_type": "code",
@@ -249,7 +345,7 @@
 				"source": [
 					"UPDATE deltastudent SET age= 21 where id = 1"
 				],
-				"execution_count": 11
+				"execution_count": 25
 			},
 			{
 				"cell_type": "code",
@@ -268,7 +364,7 @@
 				"source": [
 					"SELECT * FROM deltastudent"
 				],
-				"execution_count": 12
+				"execution_count": 26
 			}
 		]
 	}
